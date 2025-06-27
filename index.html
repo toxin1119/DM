@@ -98,17 +98,36 @@ $(function() {
     }
 
     $('#magazine').turn({
-        display: getDisplayMode(),
-        acceleration: true,
-        gradients: !$.isTouch,
-        elevation: 50,
-        when: {
-            turned: function(e, page) {
-                var total = $('#magazine').turn('pages');
-                $('#pageNum').text('第 ' + page + ' / ' + total + ' 頁');
-            }
-        }
-    });
+		display: getDisplayMode(),
+		acceleration: true,
+		gradients: !$.isTouch,
+		elevation: 50,
+		when: {
+			turned: function(e, page) {
+				var total = $('#magazine').turn('pages');
+				var mode = $('#magazine').turn('display');
+				var mobileText = (mode === 'single') ? ' (mobile)' : '';
+				$('#pageNum').text('第 ' + page + ' / ' + total + ' 頁' + mobileText);
+			}
+		}
+	});
+	
+	// 初始頁碼
+	var total = $('#magazine').turn('pages');
+	var mode = $('#magazine').turn('display');
+	var mobileText = (mode === 'single') ? ' (mobile)' : '';
+	$('#pageNum').text('第 1 / ' + total + ' 頁' + mobileText);
+	
+	// 螢幕大小改變時自動切換單/雙頁
+	$(window).on('resize', function() {
+		var mode = getDisplayMode();
+		$('#magazine').turn('display', mode);
+		// 重新顯示頁碼
+		var page = $('#magazine').turn('page');
+		var total = $('#magazine').turn('pages');
+		var mobileText = (mode === 'single') ? ' (mobile)' : '';
+		$('#pageNum').text('第 ' + page + ' / ' + total + ' 頁' + mobileText);
+	});
 
     // 螢幕大小改變時自動切換單/雙頁
     $(window).on('resize', function() {
