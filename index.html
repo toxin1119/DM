@@ -4,9 +4,8 @@
 <title>Turn.js 基礎 Demo</title>
 <meta charset="UTF-8">
 
-<!-- 使用本地 jQuery，避免 HTTPS 問題 -->
+<!-- 建議用本地 jQuery，避免 HTTPS 問題 -->
 <script type="text/javascript" src="jquery-3.7.1.min.js"></script>
-<!-- 引入 turn.min.js -->
 <script type="text/javascript" src="turn.min.js"></script>
 
 <style type="text/css">
@@ -20,6 +19,7 @@ body{
     max-height: 70vh;
     width: 900px;
     height: 636px;
+    margin: 0 auto;
 }
 #magazine .turn-page {
     background-size: contain;
@@ -37,12 +37,33 @@ body{
         height: calc(100vw * 636 / 900);
     }
 }
+.nav-btns {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.nav-btns button {
+    padding: 6px 18px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    background: #6366f1;
+    color: #fff;
+    margin: 0 8px;
+    cursor: pointer;
+}
+.nav-btns button:hover {
+    background: #4f46e5;
+}
+#pageNum {
+    font-size: 16px;
+    color: #222;
+    margin: 0 16px;
+}
 </style>
 </head>
 <body>
 
 <div id="magazine">
-    <!-- 手動寫入所有 18 個頁面 -->
     <div style="background-image:url(pages/01.jpg);"></div>
     <div style="background-image:url(pages/02.jpg);"></div>
     <div style="background-image:url(pages/03.jpg);"></div>
@@ -63,26 +84,67 @@ body{
     <div style="background-image:url(pages/18.jpg);"></div>
 </div>
 
+<div class="nav-btns">
+    <button id="prevPage">上一頁</button>
+    <span id="pageNum">第 1 / 18 頁</span>
+    <button id="nextPage">下一頁</button>
+</div>
+
 <script type="text/javascript">
-    $(window).ready(function() {
-        $('#magazine').turn({
-            display: 'double',
-            acceleration: true,
-            gradients: !$.isTouch,
-            elevation: 50,
-            when: {
-                turned: function(e, page) {
-                    console.log('Current page: ', page);
-                }
+// ...原本的 JS 不變...
+$(function() {
+    $('#magazine').turn({
+        display: 'double',
+        acceleration: true,
+        gradients: !$.isTouch,
+        elevation: 50,
+        when: {
+            turned: function(e, page) {
+                var total = $('#magazine').turn('pages');
+                $('#pageNum').text('第 ' + page + ' / ' + total + ' 頁');
             }
-        });
+        }
     });
+
+    // 初始頁碼
+    var total = $('#magazine').turn('pages');
+    $('#pageNum').text('第 1 / ' + total + ' 頁');
+
+    // 按鈕控制
+    $('#prevPage').click(function(){
+        $('#magazine').turn('previous');
+    });
+    $('#nextPage').click(function(){
+        $('#magazine').turn('next');
+    });
+
+    // 鍵盤控制
     $(window).bind('keydown', function(e){
         if (e.keyCode==37)
             $('#magazine').turn('previous');
         else if (e.keyCode==39)
             $('#magazine').turn('next');
     });
+
+    // 手機觸控支援
+    let startX = null;
+    $('#magazine').on('touchstart', function(e){
+        if(e.originalEvent.touches.length === 1){
+            startX = e.originalEvent.touches[0].clientX;
+        }
+    });
+    $('#magazine').on('touchend', function(e){
+        if(startX !== null && e.originalEvent.changedTouches.length === 1){
+            let endX = e.originalEvent.changedTouches[0].clientX;
+            if(endX - startX > 50){
+                $('#magazine').turn('previous');
+            } else if(startX - endX > 50){
+                $('#magazine').turn('next');
+            }
+        }
+        startX = null;
+    });
+});
 </script>
 
 </body>
