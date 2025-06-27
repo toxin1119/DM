@@ -91,12 +91,27 @@ body{
 </div>
 
 <script type="text/javascript">
+function getDisplayMode() {
+    return window.innerWidth < 700 ? 'single' : 'double';
+}
+
+function updatePageNum() {
+    var page = $('#magazine').turn('page');
+    var total = $('#magazine').turn('pages');
+    var mode = $('#magazine').turn('display');
+    var mobileText = (mode === 'single') ? ' (mobile)' : '';
+    $('#pageNum').text('第 ' + page + ' / ' + total + ' 頁' + mobileText);
+}
+
 $(function() {
-    // 根據螢幕寬度決定單頁或雙頁
-    function getDisplayMode() {
-        return window.innerWidth < 700 ? 'single' : 'double';
+    // 先設定 magazine 寬度
+    if(window.innerWidth < 700){
+        $('#magazine').css('width', '100vw');
+    } else {
+        $('#magazine').css('width', '900px');
     }
 
+    // 初始化 turn.js
     $('#magazine').turn({
         display: getDisplayMode(),
         acceleration: true,
@@ -104,19 +119,12 @@ $(function() {
         elevation: 50,
         when: {
             turned: function(e, page) {
-                var total = $('#magazine').turn('pages');
-                var mode = $('#magazine').turn('display');
-                var mobileText = (mode === 'single') ? ' (mobile)' : '';
-                $('#pageNum').text('第 ' + page + ' / ' + total + ' 頁' + mobileText);
+                updatePageNum();
             }
         }
     });
 
-    // 初始頁碼
-    var total = $('#magazine').turn('pages');
-    var mode = $('#magazine').turn('display');
-    var mobileText = (mode === 'single') ? ' (mobile)' : '';
-    $('#pageNum').text('第 1 / ' + total + ' 頁' + mobileText);
+    updatePageNum();
 
     // 螢幕大小改變時自動切換單/雙頁
     $(window).on('resize', function() {
@@ -125,12 +133,8 @@ $(function() {
         // 強制重繪
         setTimeout(function() {
             $('#magazine').turn('resize');
+            updatePageNum();
         }, 100);
-        // 重新顯示頁碼
-        var page = $('#magazine').turn('page');
-        var total = $('#magazine').turn('pages');
-        var mobileText = (mode === 'single') ? ' (mobile)' : '';
-        $('#pageNum').text('第 ' + page + ' / ' + total + ' 頁' + mobileText);
     });
 
     // 按鈕控制
