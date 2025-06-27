@@ -39,7 +39,7 @@ body{
 }
 .nav-btns {
     text-align: center;
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 .nav-btns button {
     padding: 6px 18px;
@@ -91,10 +91,14 @@ body{
 </div>
 
 <script type="text/javascript">
-// ...原本的 JS 不變...
 $(function() {
+    // 根據螢幕寬度決定單頁或雙頁
+    function getDisplayMode() {
+        return window.innerWidth < 700 ? 'single' : 'double';
+    }
+
     $('#magazine').turn({
-        display: 'double',
+        display: getDisplayMode(),
         acceleration: true,
         gradients: !$.isTouch,
         elevation: 50,
@@ -104,6 +108,12 @@ $(function() {
                 $('#pageNum').text('第 ' + page + ' / ' + total + ' 頁');
             }
         }
+    });
+
+    // 螢幕大小改變時自動切換單/雙頁
+    $(window).on('resize', function() {
+        var mode = getDisplayMode();
+        $('#magazine').turn('display', mode);
     });
 
     // 初始頁碼
