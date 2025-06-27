@@ -4,15 +4,14 @@
 <title>Turn.js 基礎 Demo</title>
 <meta charset="UTF-8">
 
-<!-- 引入 jQuery (使用 demo 中常見的版本) -->
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-<!-- 引入 turn.min.js (請確保路徑正確) -->
+<!-- 使用本地 jQuery，避免 HTTPS 問題 -->
+<script type="text/javascript" src="jquery-3.7.1.min.js"></script>
+<!-- 引入 turn.min.js -->
 <script type="text/javascript" src="turn.min.js"></script>
 
 <style type="text/css">
 body{
-	background:#ccc;
-    /* 為了讓書本在頁面中看起來舒服一點，加一些 padding */
+    background:#ccc;
     padding-top: 50px;
     padding-bottom: 50px;
 }
@@ -44,55 +43,46 @@ body{
 
 <div id="magazine">
     <!-- 手動寫入所有 18 個頁面 -->
-	<div style="background-image:url(pages/01.jpg);"></div>
-	<div style="background-image:url(pages/02.jpg);"></div>
-	<div style="background-image:url(pages/03.jpg);"></div>
-	<div style="background-image:url(pages/04.jpg);"></div>
-	<div style="background-image:url(pages/05.jpg);"></div>
-	<div style="background-image:url(pages/06.jpg);"></div>
-	<div style="background-image:url(pages/07.jpg);"></div>
-	<div style="background-image:url(pages/08.jpg);"></div>
-	<div style="background-image:url(pages/09.jpg);"></div>
-	<div style="background-image:url(pages/10.jpg);"></div>
-	<div style="background-image:url(pages/11.jpg);"></div>
-	<div style="background-image:url(pages/12.jpg);"></div>
-	<div style="background-image:url(pages/13.jpg);"></div>
-	<div style="background-image:url(pages/14.jpg);"></div>
-	<div style="background-image:url(pages/15.jpg);"></div>
-	<div style="background-image:url(pages/16.jpg);"></div>
-	<div style="background-image:url(pages/17.jpg);"></div>
-	<div style="background-image:url(pages/18.jpg);"></div>
+    <div style="background-image:url(pages/01.jpg);"></div>
+    <div style="background-image:url(pages/02.jpg);"></div>
+    <div style="background-image:url(pages/03.jpg);"></div>
+    <div style="background-image:url(pages/04.jpg);"></div>
+    <div style="background-image:url(pages/05.jpg);"></div>
+    <div style="background-image:url(pages/06.jpg);"></div>
+    <div style="background-image:url(pages/07.jpg);"></div>
+    <div style="background-image:url(pages/08.jpg);"></div>
+    <div style="background-image:url(pages/09.jpg);"></div>
+    <div style="background-image:url(pages/10.jpg);"></div>
+    <div style="background-image:url(pages/11.jpg);"></div>
+    <div style="background-image:url(pages/12.jpg);"></div>
+    <div style="background-image:url(pages/13.jpg);"></div>
+    <div style="background-image:url(pages/14.jpg);"></div>
+    <div style="background-image:url(pages/15.jpg);"></div>
+    <div style="background-image:url(pages/16.jpg);"></div>
+    <div style="background-image:url(pages/17.jpg);"></div>
+    <div style="background-image:url(pages/18.jpg);"></div>
 </div>
 
-
 <script type="text/javascript">
-
-	// 使用 $(window).ready()，這是 jQuery 1.7.1 的標準寫法
-	$(window).ready(function() {
-		$('#magazine').turn({
-			display: 'double',
-			acceleration: true,
-			gradients: !$.isTouch,
-			elevation: 50,
-			when: {
-				turned: function(e, page) {
-					console.log('Current page: ', page);
-				}
-			}
-		});
-	});
-	
-	
-	// 綁定鍵盤事件
-	$(window).bind('keydown', function(e){
-		
-		if (e.keyCode==37)
-			$('#magazine').turn('previous');
-		else if (e.keyCode==39)
-			$('#magazine').turn('next');
-			
-	});
-
+    $(window).ready(function() {
+        $('#magazine').turn({
+            display: 'double',
+            acceleration: true,
+            gradients: !$.isTouch,
+            elevation: 50,
+            when: {
+                turned: function(e, page) {
+                    console.log('Current page: ', page);
+                }
+            }
+        });
+    });
+    $(window).bind('keydown', function(e){
+        if (e.keyCode==37)
+            $('#magazine').turn('previous');
+        else if (e.keyCode==39)
+            $('#magazine').turn('next');
+    });
 </script>
 
 </body>
