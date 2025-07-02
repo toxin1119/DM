@@ -16,7 +16,7 @@
       background: #fff;
       overflow: hidden;
     }
-    .cover-section {
+    。cover-section {
       position: absolute;
       left: 0; top: 0; width: 100%; height: 100%;
       display: flex;
@@ -27,13 +27,13 @@
       transition: z-index 0.3s;
       box-shadow: none;
     }
-    .inner-section, .backcover-section {
+    。inner-section, .backcover-section {
       position: absolute;
       left: 0; top: 0; width: 100%; height: 100%;
       background: #fff;
       transition: z-index 0.3s;
     }
-    .cover-left {
+    。cover-left {
       width: 50%;
       height: 100%;
       background: #eee;
@@ -128,7 +128,7 @@
     <div id="cover" class="cover-section" style="z-index: 30;">
       <div class="cover-left"></div>
       <div class="cover-right">
-        <img id="coverImg" src="pages/01.jpg" alt="封面">
+        <img id="coverImg" src="page2/01.jpg" alt="封面">
         
       </div>
     </div>
@@ -140,7 +140,7 @@
     <div id="backcover" class="backcover-section hidden" style="z-index: 10;">
       <div class="backcover-flex">
         <div class="backcover-left">
-          <img src="pages/22.jpg" alt="封底">
+          <img src="page2/22.jpg" alt="封底">
         </div>
         <div class="backcover-right"></div>
       </div>
@@ -178,11 +178,11 @@
       }
     };
 
-    const pages = [
-      "pages/02.jpg", "pages/03.jpg", "pages/04.jpg", "pages/05.jpg",
-      "pages/06.jpg", "pages/07.jpg", "pages/08.jpg", "pages/09.jpg", "pages/10.jpg", "pages/11.jpg",
-      "pages/12.jpg", "pages/13.jpg", "pages/14.jpg", "pages/15.jpg", "pages/16.jpg",
-      "pages/17.jpg", "pages/18.jpg", "pages/19.jpg", "pages/20.jpg", "pages/21.jpg"
+    const page2 = [
+      "page2/02.jpg", "page2/03.jpg", "page2/04.jpg", "page2/05.jpg",
+      "page2/06.jpg", "page2/07.jpg", "page2/08.jpg", "page2/09.jpg", "page2/10.jpg", "page2/11.jpg",
+      "page2/12.jpg", "page2/13.jpg", "page2/14.jpg", "page2/15.jpg", "page2/16.jpg",
+      "page2/17.jpg", "page2/18.jpg", "page2/19.jpg", "page2/20.jpg", "page2/21.jpg"
     ];
 
     function getSize() {
@@ -236,7 +236,7 @@
 
         function updatePageNum() {
           const current = pageFlip.getCurrentPageIndex() + 1;
-          const total = pages.length;
+          const total = page2.length;
           document.getElementById('pageNum').textContent = `第 ${current} / ${total} 頁`;
         }
         pageFlip.on('flip', updatePageNum);
